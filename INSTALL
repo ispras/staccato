@@ -30,12 +30,25 @@
 ################################################################################
 
 Installation Instructions for STACCATO
-$> make
-$> make test (edit the CUDD and DSD library paths)
 
+To change the static/shared library type, use the make parameter:
+BUILD_TYPE=shared or BUILD_TYPE=static (static by default).
+You must specify the path to the CUDD directory with:
+CUDD_PATH=example/path/to/cudd.
+
+Example for building shared library:
+$> make BUILD_TYPE=shared CUDD_PATH=example/path/to/cudd
+
+Example for building static library:
+$> make CUDD_PATH=example/path/to/cudd
+
+You can test static library with:
+$> make test CUDD_PATH=example/path/to/cudd
+
+To clean created file use:
+$> make clean
 
 Dependencies:
   CUDD >= 2.4.1 
-  (Edit the INCLUDE path in the Makefile to include the appropriate CUDD headers)
   
   gcc 3.4, 4.1, 4.2, 4.3 or 4.4

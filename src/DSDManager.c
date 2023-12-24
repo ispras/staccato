@@ -323,7 +323,7 @@ void __DSD_Ref(DSDManager *manager, DSDNode * dsd)
 
 DSDNode * find_DSD_node(DSDManager *manager, DdNode *bdd)
 {
-    int index;
+    unsigned int index;
     int table_size;
 
     DSDNode *result;
@@ -374,7 +374,7 @@ DSDNode * find_DSD_node(DSDManager *manager, DdNode *bdd)
 
 DSDNode *create_DSD_node(DSDManager *manager, DdNode *bdd)
 {
-    int index;
+    unsigned int index;
     int table_size;
     int hash_index;
 
