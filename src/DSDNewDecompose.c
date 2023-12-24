@@ -72,7 +72,7 @@ DSDNode* Common_Formals_Decomp(DSDManager* manager, DdNode* f, DdNode *top_func,
     T_back = NULL;
 
     /*probably should check to see if T is marked first*/
-    nodeT_expansion = check_marks_recursive(manager, T, NULL);
+//    nodeT_expansion = check_marks_recursive(manager, T, NULL);
 
 #ifdef DISABLE_SM    
     if(DSD_IsComplement(T))
