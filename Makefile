@@ -29,34 +29,57 @@
 #   Ann Arbor, MI 48109-2121                                                   #
 ################################################################################
 
-LIB      = lib/libdsd.a
-SRC      = $(shell ls src/*.c)
-OBJ      = $(SRC:%.c=%.o)
+# Build static library by default
+BUILD_TYPE ?= static
 
-CUDD_INC = -I/path/to/cudd-2.4.2/include
+ifeq ($(BUILD_TYPE), static)
+	LIB = lib/libdsd.a
+else
+	LIB = libSTACCATO.so
+endif
 
+SRC = $(shell ls src/*.c)
+OBJ = $(SRC:%.c=%.o)
 
-CFLAGS   = -c -O3 -funroll-all-loops $(CUDD_INC)
-CC       = g++ 
+CUDD_INCLUDE = $(CUDD_PATH)/include
 
-	
+ifeq ($(BUILD_TYPE), static)
+	CFLAGS	= -c -O3 -funroll-all-loops -I$(CUDD_INCLUDE)
+else
+	CFLAGS	= -c -O3 -funroll-all-loops -fPIC -I$(CUDD_INCLUDE)
+endif
+
+# Determining the path to the libcudd.so library
+ifeq ($(CUDD_DIR),)
+	CUDD_LIBRARY_PATH = /usr/local/lib
+else
+	CUDD_LIBRARY_PATH = $(CUDD_DIR)
+endif
+
+CC = g++
+
+ifeq ($(BUILD_TYPE), static)
 $(LIB): $(OBJ)
-	ar rv $(LIB) $(OBJ) 		
+	@mkdir -p lib
+	ar rv $(LIB) $(OBJ)
+else
+$(LIB): $(OBJ) $(CUDD_LIBRARY_PATH)/libcudd.so
+	$(CC) -shared -o $(LIB) $(OBJ) -L$(CUDD_LIBRARY_PATH) -lcudd
+endif
 
-clean: 
-	rm -rf $(OBJ) $(LIB) sample
+clean:
+	rm -rf $(OBJ) $(LIB) libSTACCATO.so lib sample
 
 .PHONY: test clean
 
-	
-#To compile the program as mentioned in STACCATO Code Example	
-CUDD_LIB = -L/path/to/cudd-2.4.2/cudd
-EPD_LIB = -L/path/to/cudd-2.4.2/epd
-ST_LIB = -L/path/to/cudd-2.4.2/st
-UTIL_LIB = -L/path/to/cudd-2.4.2/util
-MTR_LIB = -L/path/to/cudd-2.4.2/mtr
-DSD_LIB = -L/path/to/STACCATO-1.2/lib
-	
+# To compile the program as mentioned in STACCATO Code Example
+CUDD_LIB = -L$(CUDD_PATH)/cudd
+EPD_LIB = -L$(CUDD_PATH)/epd
+ST_LIB = -L$(CUDD_PATH)/st
+UTIL_LIB = -L$(CUDD_PATH)/util
+MTR_LIB = -L$(CUDD_PATH)/mtr
+DSD_LIB = -L$(shell pwd)/lib
+    
 test:
-	$(CC) src/sample.c $(CUDD_LIB) $(MTR_LIB) $(ST_LIB) $(EPD_LIB) $(UTIL_LIB) $(DSD_LIB) \
-	-lcudd -lmtr -lst -lepd -lutil -ldsd $(CUDD_INC) -o sample
+	$(CC) src/sample.c $(CUDD_LIB) $(MTR_LIB) $(ST_LIB) $(EPD_LIB) \
+	$(UTIL_LIB) $(DSD_LIB) -lcudd -ldsd -I$(CUDD_INCLUDE) -o sample
