@@ -41,13 +41,10 @@ endif
 SRC = $(shell ls src/*.c)
 OBJ = $(SRC:%.c=%.o)
 
-CUDD_INCLUDE = $(CUDD_PATH)/include
+CUDD_INCLUDE = $(CUDD_PATH)
 
-ifeq ($(BUILD_TYPE), static)
-	CFLAGS	= -c -O3 -funroll-all-loops -I$(CUDD_INCLUDE)
-else
-	CFLAGS	= -c -O3 -funroll-all-loops -fPIC -I$(CUDD_INCLUDE)
-endif
+CFLAGS	= -c -O3 -funroll-all-loops -fPIC -I$(CUDD_INCLUDE)/util \
+-I$(CUDD_INCLUDE)/cudd -I$(CUDD_INCLUDE) -I$(CUDD_INCLUDE)/st -I$(CUDD_INCLUDE)/mtr -I$(CUDD_INCLUDE)/epd
 
 # Determining the path to the libcudd.so library
 ifeq ($(CUDD_DIR),)
