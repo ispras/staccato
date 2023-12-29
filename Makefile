@@ -41,10 +41,9 @@ endif
 SRC = $(shell ls src/*.c)
 OBJ = $(SRC:%.c=%.o)
 
-CUDD_INCLUDE = $(CUDD_PATH)
-
 CFLAGS	= -c -O3 -funroll-all-loops -fPIC -I$(CUDD_INCLUDE)/util \
--I$(CUDD_INCLUDE)/cudd -I$(CUDD_INCLUDE) -I$(CUDD_INCLUDE)/st -I$(CUDD_INCLUDE)/mtr -I$(CUDD_INCLUDE)/epd
+-I$(CUDD_INCLUDE)/cudd -I$(CUDD_INCLUDE) -I$(CUDD_INCLUDE)/st \
+-I$(CUDD_INCLUDE)/mtr -I$(CUDD_INCLUDE)/epd
 
 # Determining the path to the libcudd.so library
 ifeq ($(CUDD_DIR),)
@@ -70,13 +69,9 @@ clean:
 .PHONY: test clean
 
 # To compile the program as mentioned in STACCATO Code Example
-CUDD_LIB = -L$(CUDD_PATH)/cudd
-EPD_LIB = -L$(CUDD_PATH)/epd
-ST_LIB = -L$(CUDD_PATH)/st
-UTIL_LIB = -L$(CUDD_PATH)/util
-MTR_LIB = -L$(CUDD_PATH)/mtr
 DSD_LIB = -L$(shell pwd)/lib
     
 test:
-	$(CC) src/sample.c $(CUDD_LIB) $(MTR_LIB) $(ST_LIB) $(EPD_LIB) \
-	$(UTIL_LIB) $(DSD_LIB) -lcudd -ldsd -I$(CUDD_INCLUDE) -o sample
+	$(CC) src/sample.c $(DSD_LIB) -lcudd -ldsd \
+	-I$(CUDD_INCLUDE)/util -I$(CUDD_INCLUDE)/cudd -I$(CUDD_INCLUDE) \
+	-I$(CUDD_INCLUDE)/st -I$(CUDD_INCLUDE)/mtr -I$(CUDD_INCLUDE)/epd -o sample

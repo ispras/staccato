@@ -34,16 +34,17 @@ Installation Instructions for STACCATO
 To change the static/shared library type, use the make parameter:
 BUILD_TYPE=shared or BUILD_TYPE=static (static by default).
 You must specify the path to the CUDD sources directory with:
-CUDD_PATH=example/path/to/cudd.
+CUDD_INCLUDE=example/path/to/cudd.
 
 Example for building shared library:
-$> make BUILD_TYPE=shared CUDD_PATH=example/path/to/cudd
+$> make BUILD_TYPE=shared CUDD_INCLUDE=example/path/to/cudd
 
 Example for building static library:
-$> make CUDD_PATH=example/path/to/cudd
+$> make CUDD_INCLUDE=example/path/to/cudd
 
 You can test static library with:
-$> make test CUDD_PATH=example/path/to/cudd
+$> make test CUDD_INCLUDE=example/path/to/cudd
+$> ./sample
 
 To clean created file use:
 $> make clean
