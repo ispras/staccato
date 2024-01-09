@@ -39,18 +39,8 @@ your own risk.
 
 INSTALLATION
 
-Installation of the DSD package simply requires the user to unpack the
-tar file and type 'make'.  The Makefile, currently, is rather simplistic.
-The user should manually adjust the value of the CUDD_INCLUDE variable. 
-After running the makefile, a library is created, 'libdsd.a'.
-
-The Makefile only supports the following actions:
-
-make:
-	Creates the libdsd.a archive
-
-make clean:
-	Removes all the object files and the archive.
+Installation of the DSD package simply requires the user to follow
+instructions in INSTALL. 
 
 
 INSTRUCTIONS ON COMPILING AND LINKING AN APPLICATION
