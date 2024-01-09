@@ -52,7 +52,7 @@ else
 	CUDD_LIBRARY_PATH = $(CUDD_DIR)
 endif
 
-CC = g++
+CC = gcc
 
 ifeq ($(BUILD_TYPE), static)
 $(LIB): $(OBJ)
