@@ -29,9 +29,17 @@
 #   Ann Arbor, MI 48109-2121                                                   #
 ################################################################################
 
-Installation Instructions for STACCATO
+Dependencies:
 
-To change the static/shared library type, use the make parameter:
+  You must have the shared CUDD >= 2.4.1 library ("--enable-shared" option)
+  installed at the default location /usr/local/lib, or at the location
+  specified by the CUDD_DIR environment variable.
+
+  gcc 3.4, 4.1, 4.2, 4.3, 4.4 or above.
+
+Installation Instructions for STACCATO:
+
+  To change the static/shared library type, use the make parameter:
   BUILD_TYPE=shared or BUILD_TYPE=static (static by default).
   You must specify the path to the CUDD sources directory with:
   CUDD_INCLUDE=example/path/to/cudd.
@@ -48,10 +56,3 @@ To change the static/shared library type, use the make parameter:
 
   To clean created files use:
   $> make clean
-
-Dependencies:
-  You must have the shared CUDD >= 2.4.1 library ("--enable-shared" option)
-  installed at the default location /usr/local/lib, or at the location
-  specified by the CUDD_DIR environment variable.
-
-  gcc 3.4, 4.1, 4.2, 4.3, 4.4 or above.
