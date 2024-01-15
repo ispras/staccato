@@ -132,18 +132,18 @@ void update_blocks(DSDManager *manager, DSDNode *result)
   manager->onode_size++;
   manager->snode_size++;
 
-  if(GET_TYPE(DSD_Regular(result)) == VAR)
+  if(GET_TYPE(DSD_Regular(result)) == DSD_VAR)
   {
     return;
   }
 
-  /*    if((GET_TYPE(DSD_Regular(result)) == OR) || (GET_TYPE(DSD_Regular(result)) == XOR))
+  /*    if((GET_TYPE(DSD_Regular(result)) == DSD_OR) || (GET_TYPE(DSD_Regular(result)) == DSD_XOR))
         {
         manager->onode_size--;
         manager->snode_size--;
         }    
    */    
-  if(GET_TYPE(DSD_Regular(result)) == OR || GET_TYPE(DSD_Regular(result)) == XOR)
+  if(GET_TYPE(DSD_Regular(result)) == DSD_OR || GET_TYPE(DSD_Regular(result)) == DSD_XOR)
   {
     manager->num_blocks += (INPUT_SIZE(DSD_Regular(result)) - 1);
   } 
@@ -173,7 +173,7 @@ void load_arrays(DSDManager *manager, DSDNode *result)
 
 
 
-  /*    if(!((GET_TYPE(DSD_Regular(result)) == OR) || (GET_TYPE(DSD_Regular(result)) == XOR)))
+  /*    if(!((GET_TYPE(DSD_Regular(result)) == DSD_OR) || (GET_TYPE(DSD_Regular(result)) == DSD_XOR)))
         {*/
   manager->snodes_array[manager->snode_counter++] = DSD_Regular(result)->symbolic_kernel;
 
@@ -233,7 +233,7 @@ void count_unique(DSDManager *manager, DSDNode *result)
 
   //manager->max_DSD_nodes++; 
 
-  if(GET_TYPE(DSD_Regular(result)) == VAR)
+  if(GET_TYPE(DSD_Regular(result)) == DSD_VAR)
   {
     return;
   }
@@ -265,7 +265,7 @@ void count_unique(DSDManager *manager, DSDNode *result)
 
   manager->max_actualsize += INPUT_SIZE(DSD_Regular(result));
 
-  if(GET_TYPE(DSD_Regular(result)) == OR || GET_TYPE(DSD_Regular(result)) == XOR)
+  if(GET_TYPE(DSD_Regular(result)) == DSD_OR || GET_TYPE(DSD_Regular(result)) == DSD_XOR)
   {
     manager->num_unique_blocks += (INPUT_SIZE(DSD_Regular(result)) - 1);
 
@@ -315,7 +315,7 @@ DSDNode* DSD_Create(DSDManager* manager, DdNode* f)
 
   result = __DSD_Create(manager, f);
 
-  if(GET_TYPE(DSD_Regular(result)) == PRIME) /*|| GET_TYPE(DSD_Regular(result)) == OR || GET_TYPE(DSD_Regular(result)) == XOR)*/
+  if(GET_TYPE(DSD_Regular(result)) == DSD_PRIME) /*|| GET_TYPE(DSD_Regular(result)) == DSD_OR || GET_TYPE(DSD_Regular(result)) == DSD_XOR)*/
   {
 #ifndef DISABLE_SBDD
     if((DSD_Regular(result)->bdd_analogue != DSD_Regular(result)->symbolic_kernel))
@@ -393,7 +393,7 @@ DSDNode *Get_X_Input(DSDNode* dsd_node, int index)
   
   dsd_node_reg = DSD_Regular(dsd_node);
   
-  if(GET_TYPE(dsd_node_reg) == VAR) return NULL;
+  if(GET_TYPE(dsd_node_reg) == DSD_VAR) return NULL;
   if(index >= INPUT_SIZE(dsd_node_reg)) return NULL;
 
   i = 0;

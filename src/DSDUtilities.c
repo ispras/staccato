@@ -324,7 +324,7 @@ void set_canonical_var(DSDNode *node)
     ActualNode *iter;
 
     nodereg = DSD_Regular(node);
-    assert(GET_TYPE(nodereg) != VAR);
+    assert(GET_TYPE(nodereg) != DSD_VAR);
 
     iter = nodereg->actual_list;
 
@@ -428,7 +428,7 @@ void support_create(DSDManager *manager, DSDNode* node)
     support_size = (canonical_var / (sizeof(int) * 8)) + 1;
     manager->support_size += (support_size * sizeof(int));
 
-    if(GET_TYPE(node_reg) == VAR)
+    if(GET_TYPE(node_reg) == DSD_VAR)
     {
         node_reg->support = (int*) malloc(sizeof(int) * support_size);
         memset(node_reg->support, 0, sizeof(int) * support_size);

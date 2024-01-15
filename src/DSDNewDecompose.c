@@ -215,7 +215,7 @@ DSDNode* Common_Formals_Decomp(DSDManager* manager, DdNode* f, DdNode *top_func,
 
     (*size)++;	
 
-    SET_TYPE(result, PRIME);
+    SET_TYPE(result, DSD_PRIME);
     SET_SIZE(result, *size);
     manager->total_actualsize += *size;
 
@@ -486,7 +486,7 @@ DdNode *check_marks_recursive(DSDManager *manager, DSDNode *node, DSDNode *paren
 
             if((parent_node = DSD_Regular(actual_iter->decomposition)->parent) != NULL)
             {
-                if(GET_TYPE(DSD_Regular(parent_node)) == OR && GET_TYPE(DSD_Regular(node)) == OR)
+                if(GET_TYPE(DSD_Regular(parent_node)) == DSD_OR && GET_TYPE(DSD_Regular(node)) == DSD_OR)
                 {
                     if(DSD_IsComplement(parent_node) == DSD_IsComplement(actual_iter->decomposition))
                     {
@@ -520,7 +520,7 @@ DdNode *check_marks_recursive(DSDManager *manager, DSDNode *node, DSDNode *paren
                         }
                     }
                 }
-                else if(GET_TYPE(DSD_Regular(parent_node)) == XOR && GET_TYPE(DSD_Regular(node)) == XOR)
+                else if(GET_TYPE(DSD_Regular(parent_node)) == DSD_XOR && GET_TYPE(DSD_Regular(node)) == DSD_XOR)
                 {
                     if(xor_candidates == NULL)
                     {
@@ -613,7 +613,7 @@ DdNode *check_marks_recursive(DSDManager *manager, DSDNode *node, DSDNode *paren
 
         elements_remaining = 1;
 
-        if(parent_type == OR)
+        if(parent_type == DSD_OR)
         {
             node_expansion = Cudd_Not(Cudd_ReadOne(manager->Ddmanager_analogue));
 #ifndef DISABLE_SM
@@ -856,7 +856,7 @@ DdNode *check_marks_recursive(DSDManager *manager, DSDNode *node, DSDNode *paren
             }
 #endif
         }
-        else if(parent_type == XOR)
+        else if(parent_type == DSD_XOR)
         {
             node_expansion = Cudd_Not(Cudd_ReadOne(manager->Ddmanager_analogue));
 
@@ -1270,7 +1270,7 @@ DdNode *check_remaining_marks_recursive(DSDManager *manager, DSDNode *node, DSDN
 
 
             }
-            else if(parent_type == OR || parent_type == XOR)
+            else if(parent_type == DSD_OR || parent_type == DSD_XOR)
             {
                 temp_node = (struct cudd_list *) malloc(sizeof(struct cudd_list));
 
@@ -1342,7 +1342,7 @@ DdNode *check_remaining_marks_recursive(DSDManager *manager, DSDNode *node, DSDN
 
         elements_remaining = 1;
 
-        if(parent_type == OR)
+        if(parent_type == DSD_OR)
         {
             node_expansion = Cudd_Not(Cudd_ReadOne(manager->Ddmanager_analogue));
 #ifndef DISABLE_SM
@@ -1435,7 +1435,7 @@ DdNode *check_remaining_marks_recursive(DSDManager *manager, DSDNode *node, DSDN
             }
 #endif
         }
-        else if(parent_type == XOR)
+        else if(parent_type == DSD_XOR)
         {
             node_expansion = Cudd_Not(Cudd_ReadOne(manager->Ddmanager_analogue));
 #ifndef DISABLE_SM
@@ -1583,13 +1583,13 @@ void mark_recursive(DSDNode *node, DSDNode *parent)
     if(parent != NULL)
     {
         /*should be negative if child is negative?*/
-        if(DSD_IsComplement(node) && (GET_TYPE(DSD_Regular(parent)) == OR || GET_TYPE(DSD_Regular(parent)) == XOR))
+        if(DSD_IsComplement(node) && (GET_TYPE(DSD_Regular(parent)) == DSD_OR || GET_TYPE(DSD_Regular(parent)) == DSD_XOR))
         {
-            assert(GET_TYPE(DSD_Regular(parent)) == OR);
+            assert(GET_TYPE(DSD_Regular(parent)) == DSD_OR);
 
             DSD_Regular(node)->parent = DSD_Complement(parent);
         }
-        else if(GET_TYPE(DSD_Regular(parent)) == OR || GET_TYPE(DSD_Regular(parent)) == XOR)
+        else if(GET_TYPE(DSD_Regular(parent)) == DSD_OR || GET_TYPE(DSD_Regular(parent)) == DSD_XOR)
         {
             node->parent = DSD_Regular(parent);
         }

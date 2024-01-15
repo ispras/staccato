@@ -39,7 +39,7 @@ void  __Decomposition_Print(DSDNode* dsd_node)
 
     switch(GET_TYPE(DSD_Regular(dsd_node)))
     {
-        case OR:
+        case DSD_OR:
             if(DSD_IsComplement(dsd_node))
             {
                 printf("NOR\n");
@@ -50,7 +50,7 @@ void  __Decomposition_Print(DSDNode* dsd_node)
             }		
             break;
 
-        case XOR:
+        case DSD_XOR:
             if(DSD_IsComplement(dsd_node))
             {
                 printf("XNOR\n");
@@ -62,13 +62,27 @@ void  __Decomposition_Print(DSDNode* dsd_node)
 
             break;
 
-        case PRIME:
-            printf("PRIME\n");
+        case DSD_PRIME:
+            if(DSD_IsComplement(dsd_node))
+            {
+                printf("NOT_PRIME\n");
+            }
+            else
+            {
+                printf("PRIME\n");
+            }
             break;
 
 
-        case VAR:
-            printf("VAR\n");	
+        case DSD_VAR:
+            if(DSD_IsComplement(dsd_node))
+            {
+                printf("NOT_VAR\n");
+            }
+            else
+            {
+                printf("VAR\n");
+            }
 
             break;
 
@@ -100,7 +114,7 @@ void __Recursive_Decomposition_Print(DSDNode* dsd_node)
 {
     ActualNode *iter;
 
-    assert(GET_REF(DSD_Regular(dsd_node)) > 0 || (GET_TYPE(DSD_Regular(dsd_node)) == VAR));
+    assert(GET_REF(DSD_Regular(dsd_node)) > 0 || (GET_TYPE(DSD_Regular(dsd_node)) == DSD_VAR));
     __Decomposition_Print(dsd_node);
 
     iter = DSD_Regular(dsd_node)->actual_list;

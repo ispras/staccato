@@ -50,7 +50,7 @@ DSDNode *BDN_MUX_VAR_DEC_DEC(DSDManager *manager, DdNode *f, DdNode *top_func, D
 
 
 
-    SET_TYPE(result, PRIME);
+    SET_TYPE(result, DSD_PRIME);
 
 
     if(E && E != manager->one)	evar = canonical_var(E);
@@ -246,7 +246,7 @@ DSDNode *BDN_BDD_PRIME_SUB(DSDManager *manager, DdNode *f, DdNode *top_func, Act
 
                 if((sub = find_DSD_node(manager, func)) == NULL)
                 {
-                    /*if(GET_TYPE(iter->decomposition) != OR)
+                    /*if(GET_TYPE(iter->decomposition) != DSD_OR)
                       {*/
                     sub = BDN_NOR_VAR_DEC(manager, func, Cudd_Not(top_func), DSD_Not(iter->decomposition));
                     /*}
@@ -269,7 +269,7 @@ DSDNode *BDN_BDD_PRIME_SUB(DSDManager *manager, DdNode *f, DdNode *top_func, Act
 
                 if((sub = find_DSD_node(manager, func)) == NULL)
                 {
-                    if(GET_TYPE(iter->decomposition) != OR)
+                    if(GET_TYPE(iter->decomposition) != DSD_OR)
                     {
                         sub = BDN_OR_VAR_DEC(manager, func, Cudd_Not(top_func), iter->decomposition);
                     }
@@ -398,7 +398,7 @@ DSDNode *BDN_BDD_PRIME_XOR_SUB(DSDManager *manager, DdNode *f, DdNode *top_func,
 
             if((sub = find_DSD_node(manager, func)) == NULL)
             {
-                if(GET_TYPE(iter->decomposition) != XOR)
+                if(GET_TYPE(iter->decomposition) != DSD_XOR)
                 {
                     sub = BDN_NXOR_VAR_DEC(manager, func, top_func, iter->decomposition);
                 }
@@ -1222,7 +1222,7 @@ int symbolic_finder_builder(DSDManager *manager, DSDNode *node1, DSDNode *node2)
         return 1;
 
     }
-    else if(GET_TYPE(DSD_Regular(node2)) == VAR)
+    else if(GET_TYPE(DSD_Regular(node2)) == DSD_VAR)
     {
         return 0;
     }
@@ -1261,7 +1261,7 @@ int symbolic_finder_builder_incomplete(DSDManager *manager, DSDNode *node1, DSDN
         return 1;
 
     }
-    else if(GET_TYPE(DSD_Regular(node2)) == VAR)
+    else if(GET_TYPE(DSD_Regular(node2)) == DSD_VAR)
     {
         return 2;
     }
@@ -1345,7 +1345,7 @@ DSDNode *cofactor_elem_BDN_BDD_PRIME_SUB_ELEM(DSDManager *manager, DdNode *f, Dd
 
 
 
-    /*	if(GET_TYPE(node2_reg) == PRIME)  || (INPUT_SIZE(node2_reg) > INPUT_SIZE(node1_reg)))
+    /*	if(GET_TYPE(node2_reg) == DSD_PRIME)  || (INPUT_SIZE(node2_reg) > INPUT_SIZE(node1_reg)))
         {*/
     node2_expansion = node2_reg->bdd_analogue;
     if(DSD_IsComplement(node2))
@@ -1526,7 +1526,7 @@ DdNode *check_symbolic2(DSDManager *manager, DSDNode *node)
     found = 0;
 
 
-    if(GET_TYPE(DSD_Regular(node)) == VAR)
+    if(GET_TYPE(DSD_Regular(node)) == DSD_VAR)
     {
         assert(DSD_Regular(node)->bdd_analogue == DSD_Regular(node)->symbolic_kernel);
 
@@ -1541,19 +1541,19 @@ DdNode *check_symbolic2(DSDManager *manager, DSDNode *node)
     {
         symbolic_smasher = check_symbolic2(manager, iter->decomposition);
 
-        if(GET_TYPE(DSD_Regular(node)) != OR)
+        if(GET_TYPE(DSD_Regular(node)) != DSD_OR)
         {
             assert(!DSD_IsComplement(iter->decomposition));
         }
 
-        if(GET_TYPE(DSD_Regular(node)) == OR)
+        if(GET_TYPE(DSD_Regular(node)) == DSD_OR)
         {
-            assert((GET_TYPE(DSD_Regular(iter->decomposition)) != OR) || DSD_IsComplement(iter->decomposition));
+            assert((GET_TYPE(DSD_Regular(iter->decomposition)) != DSD_OR) || DSD_IsComplement(iter->decomposition));
         }
 
-        if(GET_TYPE(DSD_Regular(node)) == XOR)
+        if(GET_TYPE(DSD_Regular(node)) == DSD_XOR)
         {
-            assert((GET_TYPE(iter->decomposition) != XOR));
+            assert((GET_TYPE(iter->decomposition) != DSD_XOR));
         }
 
 
@@ -1587,7 +1587,7 @@ void check_symbolic(DSDNode *node)
 
     while(iter)
     {
-        if(GET_TYPE(DSD_Regular(iter->decomposition)) != VAR)
+        if(GET_TYPE(DSD_Regular(iter->decomposition)) != DSD_VAR)
         {
             not_var = 1;
         }
@@ -1642,7 +1642,7 @@ DSDNode* Prime_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode*
     one = Cudd_ReadOne(manager->Ddmanager_analogue);
     zero = Cudd_Not(one);
 
-    if(GET_TYPE(TReg) != PRIME && GET_TYPE(EReg) != PRIME)
+    if(GET_TYPE(TReg) != DSD_PRIME && GET_TYPE(EReg) != DSD_PRIME)
     {
 #ifdef DEBUG_PRINT
         printf("-------Section 3.1----------\n");
@@ -1652,7 +1652,7 @@ DSDNode* Prime_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode*
     }
 
 
-    if(GET_TYPE(EReg) == PRIME && node_exists(EReg->actual_list, TReg))
+    if(GET_TYPE(EReg) == DSD_PRIME && node_exists(EReg->actual_list, TReg))
     {
         /*seperate calculation for negative prime*/
         if((conflicting_term_residue = cofactor_container_node_equivalence(manager, E, T)))
@@ -1678,7 +1678,7 @@ DSDNode* Prime_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode*
     }
 
 
-    if(GET_TYPE(TReg) == PRIME && node_exists(TReg->actual_list, EReg))
+    if(GET_TYPE(TReg) == DSD_PRIME && node_exists(TReg->actual_list, EReg))
     {
         /*seperate calculation for negative prime*/
         if((conflicting_term_residue = cofactor_container_node_equivalence(manager, T, E)))
@@ -1706,7 +1706,7 @@ DSDNode* Prime_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode*
 
 
     /*if T is greater than E, cofactor expanded E to get T*/
-    if(GET_TYPE(EReg) == PRIME && GET_TYPE(TReg) != VAR && (GET_TYPE(TReg) != PRIME || INPUT_SIZE(EReg) > INPUT_SIZE(TReg)))
+    if(GET_TYPE(EReg) == DSD_PRIME && GET_TYPE(TReg) != DSD_VAR && (GET_TYPE(TReg) != DSD_PRIME || INPUT_SIZE(EReg) > INPUT_SIZE(TReg)))
     {
 #ifdef DEBUG_PRINT
         printf("-------Section 3.4----------\n");
@@ -1720,7 +1720,7 @@ DSDNode* Prime_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode*
         
     }
 
-    if(GET_TYPE(TReg) == PRIME && GET_TYPE(EReg) != VAR && (GET_TYPE(EReg) != PRIME || INPUT_SIZE(TReg) > INPUT_SIZE(EReg)))
+    if(GET_TYPE(TReg) == DSD_PRIME && GET_TYPE(EReg) != DSD_VAR && (GET_TYPE(EReg) != DSD_PRIME || INPUT_SIZE(TReg) > INPUT_SIZE(EReg)))
     {
 #ifdef DEBUG_PRINT
         printf("-------Section 3.5----------\n");
@@ -1737,7 +1737,7 @@ DSDNode* Prime_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode*
 
 
 
-    if(!((GET_TYPE(TReg) == PRIME) && (GET_TYPE(EReg) == PRIME)))
+    if(!((GET_TYPE(TReg) == DSD_PRIME) && (GET_TYPE(EReg) == DSD_PRIME)))
     {
 #ifdef DEBUG_PRINT
         printf("-------Section 3.6----------\n");

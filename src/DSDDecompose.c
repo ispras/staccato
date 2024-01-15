@@ -41,7 +41,7 @@ void check_one(DSDNode *node)
     
     node_reg = DSD_Regular(node);
 
-    if(GET_REF(node_reg) > 0 && GET_TYPE(node_reg) != VAR)
+    if(GET_REF(node_reg) > 0 && GET_TYPE(node_reg) != DSD_VAR)
     {
         iter = node_reg->actual_list;
         while(iter)
@@ -51,7 +51,7 @@ void check_one(DSDNode *node)
         }
 
     }
-    else if(GET_TYPE(node_reg) != VAR)
+    else if(GET_TYPE(node_reg) != DSD_VAR)
     {
         assert(0);
     }
@@ -160,7 +160,7 @@ DSDNode *create_var(DSDManager* manager, DdNode* f)
     SET_CAN((DSD_Regular(result)),(Cudd_Regular(f)->index));
 
     /*DSD node already referenced and initialized)*/
-    SET_TYPE(result, VAR);
+    SET_TYPE(result, DSD_VAR);
 
 #ifndef DISABLE_SBDD
     result->symbolic_kernel = Cudd_Regular(f);

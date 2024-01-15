@@ -52,7 +52,7 @@ DSDNode *BDN_OR_VAR_EXP(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNod
     SET_CAN((DSD_Regular(result)), (canonical_var(base)));
 
 
-    SET_TYPE(result, OR);
+    SET_TYPE(result, DSD_OR);
 
 
     top_node = create_var(manager, top_func);
@@ -113,7 +113,7 @@ DSDNode *BDN_NOR_VAR_EXP(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNo
     result = create_DSD_node(manager, f);
     SET_CAN((DSD_Regular(result)), (canonical_var(base)));
 
-    SET_TYPE(result, OR);
+    SET_TYPE(result, DSD_OR);
 
     assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
     assert(f != NULL);
@@ -165,7 +165,7 @@ DSDNode *BDN_NOR_VAR_DEC(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNo
     result = create_DSD_node(manager, f);
     SET_CAN((DSD_Regular(result)), (canonical_var(base)));
 
-    SET_TYPE(result, OR);
+    SET_TYPE(result, DSD_OR);
 
     assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
     assert(f != NULL);
@@ -216,7 +216,7 @@ DSDNode *BDN_OR_VAR_DEC(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNod
     result = create_DSD_node(manager, f);
     SET_CAN((DSD_Regular(result)), (canonical_var(base)));
 
-    SET_TYPE(result, OR);
+    SET_TYPE(result, DSD_OR);
 
     assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
     assert(f != NULL);
@@ -267,7 +267,7 @@ DSDNode *BDN_OR_DEC_ACTUALS(DSDManager *manager, DdNode *f, DSDNode *node, Actua
 
     result = create_DSD_node(manager, f);
 
-    SET_TYPE(result, OR);
+    SET_TYPE(result, DSD_OR);
 
     assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
     assert(f != NULL);
@@ -348,7 +348,7 @@ DSDNode *BDN_NOR_DEC_ACTUALS(DSDManager *manager, DdNode *f, DSDNode *node, Actu
 
     result = create_DSD_node(manager, f);
 
-    SET_TYPE(result, OR);
+    SET_TYPE(result, DSD_OR);
 
     assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
     assert(f != NULL);
@@ -424,7 +424,7 @@ DSDNode *BDN_OR_DEC_DEC(DSDManager *manager, DdNode *f, DSDNode *node1, DSDNode 
 
     result = create_DSD_node(manager, f);
 
-    SET_TYPE(result, OR);
+    SET_TYPE(result, DSD_OR);
 
 
 
@@ -495,7 +495,7 @@ DSDNode *BDN_NOR_DEC_DEC(DSDManager *manager, DdNode *f, DSDNode *node1, DSDNode
 
 
 
-    SET_TYPE(result, OR);
+    SET_TYPE(result, DSD_OR);
 
 
 
@@ -569,7 +569,7 @@ DSDNode *BDN_OR_ACTUALS(DSDManager *manager, DdNode *f, ActualNode *actuals)
 
     result = create_DSD_node(manager, f);
 
-    SET_TYPE(result, OR);
+    SET_TYPE(result, DSD_OR);
 
 
     result->actual_list = actuals;
@@ -613,7 +613,7 @@ DSDNode *BDN_NOR_ACTUALS(DSDManager *manager, DdNode *f, ActualNode *actuals)
 
     result = create_DSD_node(manager, f);
 
-    SET_TYPE(result, OR);
+    SET_TYPE(result, DSD_OR);
 
 
     result->actual_list = actuals;
@@ -729,7 +729,7 @@ DSDNode *BDN_BDD_NOR_RESIDUE(DSDManager *manager, ActualNode *residue)
     }
     else if(residue->next == NULL)
     {
-        if(GET_TYPE(DSD_Regular(residue->decomposition)) != OR || !DSD_IsComplement(residue->decomposition))
+        if(GET_TYPE(DSD_Regular(residue->decomposition)) != DSD_OR || !DSD_IsComplement(residue->decomposition))
         {
             __DSD_Ref(manager, residue->decomposition);
             
@@ -810,7 +810,7 @@ DSDNode *BDN_BDD_NOR_VAR_ACTUALS(DSDManager *manager, DdNode *top_func, ActualNo
     }
     else if(residue->next == NULL)
     {
-        if(GET_TYPE(DSD_Regular(residue->decomposition)) != OR  || !DSD_IsComplement(residue->decomposition))
+        if(GET_TYPE(DSD_Regular(residue->decomposition)) != DSD_OR  || !DSD_IsComplement(residue->decomposition))
         {
             __DSD_Ref(manager, residue->decomposition);            
             return DSD_Not(residue->decomposition);
@@ -910,7 +910,7 @@ DSDNode *BDN_BDD_NOR_VAR_DEC(DSDManager *manager, DdNode *top_func, DSDNode *nod
 
     if((result = find_DSD_node(manager, f)) == NULL)
     {
-        if(GET_TYPE(DSD_Regular(node)) != OR || DSD_IsComplement(node))
+        if(GET_TYPE(DSD_Regular(node)) != DSD_OR || DSD_IsComplement(node))
         {
             result = BDN_NOR_VAR_DEC(manager, f, top_func, node);
         }
@@ -967,7 +967,7 @@ DSDNode* OR_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode* T,
     if(((TReg->bdd_analogue == zero) && DSD_IsComplement(T)) || ((TReg->bdd_analogue == one) && (!DSD_IsComplement(T))))
     {
         /*-nor is now just or as it should be*/
-        if(GET_TYPE(EReg) == OR && (!DSD_IsComplement(E)))
+        if(GET_TYPE(EReg) == DSD_OR && (!DSD_IsComplement(E)))
         {
 #ifdef DEBUG_PRINT
             printf("-------Section 1.1.1----------\n");
@@ -991,7 +991,7 @@ DSDNode* OR_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode* T,
     if(((EReg->bdd_analogue == zero) && DSD_IsComplement(E)) || ((EReg->bdd_analogue == one) && (!DSD_IsComplement(E))))
     {
         /*-nor is now just or as it should be*/
-        if((GET_TYPE(TReg) == OR) && (!DSD_IsComplement(T)))
+        if((GET_TYPE(TReg) == DSD_OR) && (!DSD_IsComplement(T)))
         {
 #ifdef DEBUG_PRINT
             printf("-------Section 1.2.1----------\n");
@@ -1014,7 +1014,7 @@ DSDNode* OR_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode* T,
     if(((EReg->bdd_analogue == one) && DSD_IsComplement(E)) || ((EReg->bdd_analogue == zero) && (!DSD_IsComplement(E))))
     {
         /*-nor is now just or as it should be*/
-        if((GET_TYPE(TReg) == OR) && (DSD_IsComplement(T)))
+        if((GET_TYPE(TReg) == DSD_OR) && (DSD_IsComplement(T)))
         {
 #ifdef DEBUG_PRINT
             printf("-------Section 1.3.1----------\n");
@@ -1036,7 +1036,7 @@ DSDNode* OR_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode* T,
     if(((TReg->bdd_analogue == one) && DSD_IsComplement(T)) || ((TReg->bdd_analogue ==zero) && (!DSD_IsComplement(T))))
     {
         /*-nor is now just or as it should be*/
-        if((GET_TYPE(EReg) == OR) && (DSD_IsComplement(E)))
+        if((GET_TYPE(EReg) == DSD_OR) && (DSD_IsComplement(E)))
         {
 #ifdef DEBUG_PRINT
             printf("-------Section 1.1.1opposite----------\n");
@@ -1054,7 +1054,7 @@ DSDNode* OR_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode* T,
         }
     }
 
-    if(GET_TYPE(TReg) != OR && GET_TYPE(EReg) != OR)
+    if(GET_TYPE(TReg) != DSD_OR && GET_TYPE(EReg) != DSD_OR)
     {
 #ifdef DEBUG_PRINT
         printf("-------Section 1.4----------\n");
@@ -1066,7 +1066,7 @@ DSDNode* OR_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode* T,
 
     size = (int*) malloc(sizeof(int));
 
-    if((GET_TYPE(TReg) == OR && (!DSD_IsComplement(T))) && (GET_TYPE(EReg) == OR && (!DSD_IsComplement(E))))
+    if((GET_TYPE(TReg) == DSD_OR && (!DSD_IsComplement(T))) && (GET_TYPE(EReg) == DSD_OR && (!DSD_IsComplement(E))))
     {
         commons = list_intersection(manager->Ddmanager_analogue, TReg->actual_list, EReg->actual_list, size); 
 
@@ -1115,7 +1115,7 @@ DSDNode* OR_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode* T,
 
 
     /*both are nor's*/
-    if((GET_TYPE(TReg) == OR && (DSD_IsComplement(T))) && (GET_TYPE(EReg) == OR && (DSD_IsComplement(E))))
+    if((GET_TYPE(TReg) == DSD_OR && (DSD_IsComplement(T))) && (GET_TYPE(EReg) == DSD_OR && (DSD_IsComplement(E))))
     {
         commons = list_intersection(manager->Ddmanager_analogue, TReg->actual_list, EReg->actual_list, size); 
 
@@ -1161,7 +1161,7 @@ DSDNode* OR_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode* T,
     }
 
 
-    if(GET_TYPE(EReg) == OR)
+    if(GET_TYPE(EReg) == DSD_OR)
     {
 
         if(node_exists(EReg->actual_list, T) && !DSD_IsComplement(E))
@@ -1242,7 +1242,7 @@ DSDNode* OR_Decomp(DSDManager* manager, DdNode* f, DdNode* top_func, DSDNode* T,
     }
 
 
-    if(GET_TYPE(TReg) == OR)
+    if(GET_TYPE(TReg) == DSD_OR)
     {
 
 

@@ -97,9 +97,9 @@ void Destroy_DSD_Table(DSDManager *manager, DSDNode **DSDTable, int size)
 
             iter_copy = iter->next;
 
-            if(GET_TYPE(iter) != VAR) Cudd_RecursiveDeref(manager->Ddmanager_analogue, iter->bdd_analogue);
+            if(GET_TYPE(iter) != DSD_VAR) Cudd_RecursiveDeref(manager->Ddmanager_analogue, iter->bdd_analogue);
 #ifndef DISABLE_SBDD            
-            if(GET_TYPE(iter) != VAR) Cudd_RecursiveDeref(manager->Ddmanager_analogue, iter->symbolic_kernel);
+            if(GET_TYPE(iter) != DSD_VAR) Cudd_RecursiveDeref(manager->Ddmanager_analogue, iter->symbolic_kernel);
 #endif
             delete_actual_list(manager, iter);
             //delete_support(iter);
@@ -186,7 +186,7 @@ void Purge_Derefs(DSDManager *manager)
         {
             assert(!DSD_IsComplement(iter));
 
-            if(GET_REF(iter) == 0 && (GET_TYPE(iter) != VAR))
+            if(GET_REF(iter) == 0 && (GET_TYPE(iter) != DSD_VAR))
             {
                 num++;
                 assert(iter->support);
@@ -274,12 +274,12 @@ void recursive_deref(DSDManager *manager, DSDNode *dsd2)
 
     assert(GET_REF(dsd) > 0);
 
-    if(GET_REF(dsd) != SATURATION && GET_TYPE(DSD_Regular(dsd)) != VAR)
+    if(GET_REF(dsd) != SATURATION && GET_TYPE(DSD_Regular(dsd)) != DSD_VAR)
     {
         dsd->topvar_refsize = ((dsd->topvar_refsize) & 0xffff0000) | ((dsd->topvar_refsize & 0x0000ffff) - 1);
     }
 
-    if(GET_REF(dsd) == 0 && GET_TYPE(DSD_Regular(dsd)) != VAR)
+    if(GET_REF(dsd) == 0 && GET_TYPE(DSD_Regular(dsd)) != DSD_VAR)
     {
         dsd->support = (int*) 1;
         

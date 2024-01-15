@@ -49,10 +49,10 @@
 /*!
   Different DSD types possible
 */
-#define VAR 0
-#define PRIME 1
-#define OR  2
-#define XOR 3
+#define DSD_VAR 0
+#define DSD_PRIME 1
+#define DSD_OR  2
+#define DSD_XOR 3
 
 /*!
   Internal defines

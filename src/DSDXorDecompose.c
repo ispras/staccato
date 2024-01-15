@@ -55,7 +55,7 @@ DSDNode *BDN_NXOR_VAR_EXP(DSDManager *manager, DdNode *f, DdNode *top_func, DSDN
     result = create_DSD_node(manager, f);
     SET_CAN((DSD_Regular(result)), (canonical_var(base)));
 
-    SET_TYPE(result, XOR);
+    SET_TYPE(result, DSD_XOR);
 
 
     top_node = create_var(manager, top_func);
@@ -142,7 +142,7 @@ DSDNode *BDN_XOR_VAR_EXP(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNo
     SET_CAN((DSD_Regular(result)), (canonical_var(base)));
 
 
-    SET_TYPE(result, XOR);
+    SET_TYPE(result, DSD_XOR);
 
 
     top_node = create_var(manager, top_func);
@@ -217,7 +217,7 @@ DSDNode *BDN_NXOR_VAR_DEC(DSDManager *manager, DdNode *f, DdNode *top_func, DSDN
 
     SET_CAN((DSD_Regular(result)), (canonical_var(base)));
 
-    SET_TYPE(result, XOR);
+    SET_TYPE(result, DSD_XOR);
 
     assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
     assert(f != NULL);
@@ -294,7 +294,7 @@ DSDNode *BDN_XOR_VAR_DEC(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNo
     SET_CAN((DSD_Regular(result)), (canonical_var(base)));
 
 
-    SET_TYPE(result, XOR);
+    SET_TYPE(result, DSD_XOR);
 
 
 
@@ -375,7 +375,7 @@ DSDNode *BDN_XOR_DEC_ACTUALS(DSDManager *manager, DdNode *f, DSDNode *node, Actu
 
     result = create_DSD_node(manager, f);
 
-    SET_TYPE(result, XOR);
+    SET_TYPE(result, DSD_XOR);
 
     __DSD_Ref(manager, node);
 
@@ -474,7 +474,7 @@ DSDNode *BDN_NXOR_DEC_ACTUALS(DSDManager *manager, DdNode *f, DSDNode *node, Act
 
     result = create_DSD_node(manager, f);
 
-    SET_TYPE(result, XOR);
+    SET_TYPE(result, DSD_XOR);
 
     assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
     assert(f != NULL);	
@@ -571,7 +571,7 @@ DSDNode *BDN_XOR_DEC_DEC(DSDManager *manager, DdNode *f, DSDNode *node1, DSDNode
 
 
 
-    SET_TYPE(result, XOR);
+    SET_TYPE(result, DSD_XOR);
 
 
 
@@ -670,7 +670,7 @@ DSDNode *BDN_NXOR_DEC_DEC(DSDManager *manager, DdNode *f, DSDNode *node1, DSDNod
 
 
 
-    SET_TYPE(result, XOR);
+    SET_TYPE(result, DSD_XOR);
 
 
 
@@ -771,7 +771,7 @@ DSDNode *BDN_XOR_ACTUALS(DSDManager *manager, DdNode *f, ActualNode *actuals)
 
     result = create_DSD_node(manager, f);
 
-    SET_TYPE(result, XOR);
+    SET_TYPE(result, DSD_XOR);
 
 
 
@@ -836,7 +836,7 @@ DSDNode *BDN_NXOR_ACTUALS(DSDManager *manager, DdNode *f, ActualNode *actuals)
 
     result = create_DSD_node(manager, f);
 
-    SET_TYPE(result, XOR);
+    SET_TYPE(result, DSD_XOR);
 
 
     result->actual_list= actuals;
@@ -1056,7 +1056,7 @@ DSDNode* XOR_Decomp(DSDManager* manager, DdNode* f, DdNode *top_func, DSDNode* T
 
     if(T == DSD_Not(E))
     {
-        if(GET_TYPE(TReg) == XOR && (!DSD_IsComplement(T)))
+        if(GET_TYPE(TReg) == DSD_XOR && (!DSD_IsComplement(T)))
         {
 #ifdef DEBUG_PRINT
             printf("-------Section 2.1.1----------\n");
@@ -1065,7 +1065,7 @@ DSDNode* XOR_Decomp(DSDManager* manager, DdNode* f, DdNode *top_func, DSDNode* T
             return BDN_NXOR_VAR_EXP(manager, f, top_func, T);
         }
 
-        if(GET_TYPE(TReg) == XOR && (DSD_IsComplement(T)))
+        if(GET_TYPE(TReg) == DSD_XOR && (DSD_IsComplement(T)))
         {
 #ifdef DEBUG_PRINT
             printf("-------Section 2.1.2----------\n");
@@ -1083,7 +1083,7 @@ DSDNode* XOR_Decomp(DSDManager* manager, DdNode* f, DdNode *top_func, DSDNode* T
     }
 
 
-    if(GET_TYPE(TReg) != XOR && GET_TYPE(EReg) != XOR)
+    if(GET_TYPE(TReg) != DSD_XOR && GET_TYPE(EReg) != DSD_XOR)
     {
 #ifdef DEBUG_PRINT
         printf("-------Section 2.2---------\n");
@@ -1097,7 +1097,7 @@ DSDNode* XOR_Decomp(DSDManager* manager, DdNode* f, DdNode *top_func, DSDNode* T
     size = (int*) malloc(sizeof(int));
 
 
-    if((GET_TYPE(TReg) == XOR) && (GET_TYPE(EReg) == XOR))
+    if((GET_TYPE(TReg) == DSD_XOR) && (GET_TYPE(EReg) == DSD_XOR))
     {
 #ifdef DEBUG_PRINT
         printf("-------Section 2.3.1----------\n");
@@ -1161,7 +1161,7 @@ DSDNode* XOR_Decomp(DSDManager* manager, DdNode* f, DdNode *top_func, DSDNode* T
 
 
 
-    if((GET_TYPE(EReg)) == XOR && node_exists(EReg->actual_list, TReg) && DSD_IsComplement(T))
+    if((GET_TYPE(EReg)) == DSD_XOR && node_exists(EReg->actual_list, TReg) && DSD_IsComplement(T))
     {
 #ifdef DEBUG_PRINT
         printf("-------Section 2 NEW 1----------\n");
@@ -1195,7 +1195,7 @@ DSDNode* XOR_Decomp(DSDManager* manager, DdNode* f, DdNode *top_func, DSDNode* T
 
     }
 
-    if((GET_TYPE(TReg)) == XOR && node_exists(TReg->actual_list, EReg) && DSD_IsComplement(E))
+    if((GET_TYPE(TReg)) == DSD_XOR && node_exists(TReg->actual_list, EReg) && DSD_IsComplement(E))
     {
 #ifdef DEBUG_PRINT
         printf("-------Section 2 NEW 2----------\n");
@@ -1233,7 +1233,7 @@ DSDNode* XOR_Decomp(DSDManager* manager, DdNode* f, DdNode *top_func, DSDNode* T
 
 
 
-    if((GET_TYPE(EReg)) == XOR)
+    if((GET_TYPE(EReg)) == DSD_XOR)
     {
         if(node_exists(EReg->actual_list, T))
         {
@@ -1270,7 +1270,7 @@ DSDNode* XOR_Decomp(DSDManager* manager, DdNode* f, DdNode *top_func, DSDNode* T
         }
     }
 
-    if((GET_TYPE(TReg)) == XOR)
+    if((GET_TYPE(TReg)) == DSD_XOR)
     {	
         if(node_exists(TReg->actual_list, E))
         {
