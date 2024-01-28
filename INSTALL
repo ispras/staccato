@@ -54,5 +54,11 @@ Installation Instructions for STACCATO:
   $> make test CUDD_INCLUDE=example/path/to/cudd
   $> ./sample
 
+  The author says that "Dynamic resizing of structures and garbage
+  collection is still premature in its functionality", so you can
+  disable them by passing additional parameters:
+  $> SM="-DDISABLE_SM"
+  $> GC="-DDISABLE_GC"
+
   To clean created files use:
   $> make clean
