@@ -78,3 +78,19 @@ test:
 	$(CC) src/sample.c $(DSD_LIB) -lcudd -ldsd \
 	-I$(CUDD_INCLUDE)/util -I$(CUDD_INCLUDE)/cudd -I$(CUDD_INCLUDE) \
 	-I$(CUDD_INCLUDE)/st -I$(CUDD_INCLUDE)/mtr -I$(CUDD_INCLUDE)/epd -o sample
+
+# Get the list of header files from src/
+HEADER_FILES := $(wildcard src/*.h)
+
+# Generate a list of header file paths in /usr/local/include/
+INSTALLED_HEADERS := $(patsubst src/%.h, /usr/local/include/%.h, $(HEADER_FILES))
+
+install:
+	@mkdir -p /usr/local/lib
+	@mkdir -p /usr/local/include
+	@install -m 777 libSTACCATO.so /usr/local/lib
+	@install -m 777 $(HEADER_FILES) /usr/local/include
+
+uninstall:
+	@rm -f /usr/local/lib/$(notdir libSTACCATO.so)
+	@rm -f $(INSTALLED_HEADERS)
