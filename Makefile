@@ -45,6 +45,9 @@ CFLAGS	= -c -O3 -funroll-all-loops -fPIC -I$(CUDD_INCLUDE)/util \
 -I$(CUDD_INCLUDE)/cudd -I$(CUDD_INCLUDE) -I$(CUDD_INCLUDE)/st \
 -I$(CUDD_INCLUDE)/mtr -I$(CUDD_INCLUDE)/epd
 
+CFLAGS += $(SM)
+CFLAGS += $(GC)
+
 # Determining the path to the libcudd.so library
 ifeq ($(CUDD_DIR),)
 	CUDD_LIBRARY_PATH = /usr/local/lib
