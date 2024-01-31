@@ -54,10 +54,10 @@ Installation Instructions for STACCATO:
   $> make test CUDD_INCLUDE=example/path/to/cudd
   $> ./sample
 
-  The author says that "Dynamic resizing of structures and garbage
-  collection is still premature in its functionality", so you can
-  disable them by passing additional parameters:
+  To disable dynamic resizing of structures, use DISABLE_SM option:
   $> SM="-DDISABLE_SM"
+
+  To disable garbage collection, use DISABLE_GC option:
   $> GC="-DDISABLE_GC"
 
   You can install the shared library in /usr/local/lib and the
