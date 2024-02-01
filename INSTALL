@@ -60,5 +60,12 @@ Installation Instructions for STACCATO:
   To disable garbage collection, use DISABLE_GC option:
   $> GC="-DDISABLE_GC"
 
+  You can install the shared library in /usr/local/lib and the
+  header files in /usr/local/include using the command:
+  $> sudo make install
+
+  And you can delete these files accordingly with:
+  $> sudo make uninstall
+
   To clean created files use:
   $> make clean
