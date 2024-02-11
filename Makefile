@@ -30,6 +30,7 @@
 ################################################################################
 
 # Build static library by default
+prefix ?= /usr/local
 BUILD_TYPE ?= static
 
 ifeq ($(BUILD_TYPE), static)
@@ -50,7 +51,7 @@ CFLAGS += $(GC)
 
 # Determining the path to the libcudd.so library
 ifeq ($(CUDD_DIR),)
-	CUDD_LIBRARY_PATH = /usr/local/lib
+	CUDD_LIBRARY_PATH = $(prefix)/lib
 else
 	CUDD_LIBRARY_PATH = $(CUDD_DIR)
 endif
@@ -83,14 +84,14 @@ test:
 HEADER_FILES := $(wildcard src/*.h)
 
 # Generate a list of header file paths in /usr/local/include/
-INSTALLED_HEADERS := $(patsubst src/%.h, /usr/local/include/%.h, $(HEADER_FILES))
+INSTALLED_HEADERS := $(patsubst src/%.h, $(prefix)/include/%.h, $(HEADER_FILES))
 
 install:
-	@mkdir -p /usr/local/lib
-	@mkdir -p /usr/local/include
-	@install -m 777 libSTACCATO.so /usr/local/lib
-	@install -m 777 $(HEADER_FILES) /usr/local/include
+	@mkdir -p $(prefix)/lib
+	@mkdir -p $(prefix)/include
+	@install -m 777 libSTACCATO.so $(prefix)/lib
+	@install -m 777 $(HEADER_FILES) $(prefix)/include
 
 uninstall:
-	@rm -f /usr/local/lib/$(notdir libSTACCATO.so)
+	@rm -f $(prefix)/lib/$(notdir libSTACCATO.so)
 	@rm -f $(INSTALLED_HEADERS)
