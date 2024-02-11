@@ -32,6 +32,7 @@
 
 #include "DSDXorDecompose.h"
 
+#include <stdlib.h>
 
 DSDNode *BDN_NXOR_VAR_EXP(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNode *base)
 {
@@ -49,7 +50,7 @@ DSDNode *BDN_NXOR_VAR_EXP(DSDManager *manager, DdNode *f, DdNode *top_func, DSDN
 
     negative = 1;
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
 
     result = create_DSD_node(manager, f);
@@ -130,7 +131,7 @@ DSDNode *BDN_XOR_VAR_EXP(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNo
 
     int negative;
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
 
     count = 1;
@@ -219,7 +220,7 @@ DSDNode *BDN_NXOR_VAR_DEC(DSDManager *manager, DdNode *f, DdNode *top_func, DSDN
 
     SET_TYPE(result, XOR);
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
 
     top_node = create_var(manager, top_func);
@@ -476,7 +477,7 @@ DSDNode *BDN_NXOR_DEC_ACTUALS(DSDManager *manager, DdNode *f, DSDNode *node, Act
 
     SET_TYPE(result, XOR);
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);	
 
 
@@ -589,7 +590,7 @@ DSDNode *BDN_XOR_DEC_DEC(DSDManager *manager, DdNode *f, DSDNode *node1, DSDNode
         var2 = temp_var;		
     }
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
     assert(var1 != var2);
     assert(var1 < 10000);
@@ -688,7 +689,7 @@ DSDNode *BDN_NXOR_DEC_DEC(DSDManager *manager, DdNode *f, DSDNode *node1, DSDNod
         var2 = temp_var;		
     }
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
     assert(var1 != var2);
     assert(var1 < 10000);

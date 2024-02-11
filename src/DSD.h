@@ -38,13 +38,12 @@
   #define DISABLE_SM
 #endif
 
-#include "util.h"
-#include "cudd.h"
-#include "cuddInt.h"
 #include "fixheap.h"
 #include <assert.h>
+#include <stddef.h>
 #include <stdio.h>
 
+#include "cudd.h"
 
 /*!
   Different DSD types possible

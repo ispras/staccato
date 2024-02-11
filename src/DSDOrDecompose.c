@@ -32,6 +32,7 @@
 
 #include "DSDOrDecompose.h"
 
+#include <stdlib.h>
 
 DSDNode *BDN_OR_VAR_EXP(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNode *base)
 {
@@ -45,7 +46,7 @@ DSDNode *BDN_OR_VAR_EXP(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNod
 
     count = 1;
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
 
     result = create_DSD_node(manager, f);
@@ -115,7 +116,7 @@ DSDNode *BDN_NOR_VAR_EXP(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNo
 
     SET_TYPE(result, OR);
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
 
     top_node = create_var(manager, top_func);
@@ -167,7 +168,7 @@ DSDNode *BDN_NOR_VAR_DEC(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNo
 
     SET_TYPE(result, OR);
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
 
     top_node = create_var(manager, top_func);
@@ -218,7 +219,7 @@ DSDNode *BDN_OR_VAR_DEC(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNod
 
     SET_TYPE(result, OR);
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
 
     top_node = create_var(manager, top_func);
@@ -269,7 +270,7 @@ DSDNode *BDN_OR_DEC_ACTUALS(DSDManager *manager, DdNode *f, DSDNode *node, Actua
 
     SET_TYPE(result, OR);
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
 
     temp = (ActualNode*) FixHeapMalloc(actual_malloc_ptr);
@@ -350,7 +351,7 @@ DSDNode *BDN_NOR_DEC_ACTUALS(DSDManager *manager, DdNode *f, DSDNode *node, Actu
 
     SET_TYPE(result, OR);
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
 
     __DSD_Ref(manager, node);
@@ -442,7 +443,7 @@ DSDNode *BDN_OR_DEC_DEC(DSDManager *manager, DdNode *f, DSDNode *node1, DSDNode 
         var2 = temp_var;		
     }
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
     assert(var1 != var2);
     assert(var1 < 10000);
@@ -514,7 +515,7 @@ DSDNode *BDN_NOR_DEC_DEC(DSDManager *manager, DdNode *f, DSDNode *node1, DSDNode
     }
 
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
     assert(var1 != var2);
     assert(var1 < 10000);

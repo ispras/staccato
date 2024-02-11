@@ -32,6 +32,7 @@
 
 #include "DSDNewDecompose.h"
 
+#include <stdlib.h>
 
 static ActualNode *Enode;
 static ActualNode *Tnode;
