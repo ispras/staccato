@@ -32,6 +32,9 @@
 
 #include "DSDUtilities.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 DdNode *symbolic_merger(DdManager *manager, DdNode *base, DdNode *branch, DdNode* top_func)
 {
     DdNode *pos, *neg, *result;
@@ -432,7 +435,7 @@ void support_create(DSDManager *manager, DSDNode* node)
     {
         node_reg->support = (int*) malloc(sizeof(int) * support_size);
         memset(node_reg->support, 0, sizeof(int) * support_size);
-        (*(node_reg->support + (support_size - 1))) = (*(node_reg->support + ((support_size - 1)))) | (1<<(Cudd_ReadPerm(manager->Ddmanager_analogue, (Cudd_Regular(node_reg->bdd_analogue))->index)%(sizeof(int)*8)));
+        (*(node_reg->support + (support_size - 1))) = (*(node_reg->support + ((support_size - 1)))) | (1<<(Cudd_ReadPerm(manager->Ddmanager_analogue, (Cudd_NodeReadIndex(node_reg->bdd_analogue)))%(sizeof(int)*8)));
         return;
     }
 
@@ -503,7 +506,7 @@ DdNode *symbolic_or(DdManager *manager, DSDNode *node)
     }
 
 
-    cuddDeref(f);
+    Cudd_Deref(f);
     return f;
 
 }
@@ -537,7 +540,7 @@ DdNode *symbolic_xor(DdManager *manager, DSDNode *node)
     }
 
 
-    cuddDeref(f);
+    Cudd_Deref(f);
     return f;
 }
 

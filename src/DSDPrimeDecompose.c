@@ -32,6 +32,8 @@
 
 #include "DSDPrimeDecompose.h"
 
+#include <stdlib.h>
+
 DSDNode *BDN_MUX_VAR_DEC_DEC(DSDManager *manager, DdNode *f, DdNode *top_func, DSDNode *E, DSDNode *T)
 {
     DSDNode *top_node, *efake, *tfake;
@@ -81,7 +83,7 @@ DSDNode *BDN_MUX_VAR_DEC_DEC(DSDManager *manager, DdNode *f, DdNode *top_func, D
         var1 = evar;
     }
 
-    assert(Cudd_Regular(f) != DD_ONE(manager->Ddmanager_analogue));
+    assert(Cudd_Regular(f) != Cudd_ReadOne(manager->Ddmanager_analogue));
     assert(f != NULL);
     assert(var1 < 10000);
     assert(var2 < 10000);
@@ -125,7 +127,7 @@ DSDNode *BDN_MUX_VAR_DEC_DEC(DSDManager *manager, DdNode *f, DdNode *top_func, D
 
 
 #ifndef DISABLE_SBDD
-    result->symbolic_kernel = symbolic_mux(manager->Ddmanager_analogue, Cudd_Regular(top_func)->index, efakevar, tfakevar, top_node, efake, tfake);
+    result->symbolic_kernel = symbolic_mux(manager->Ddmanager_analogue, Cudd_NodeReadIndex(top_func), efakevar, tfakevar, top_node, efake, tfake);
     Cudd_Ref(result->symbolic_kernel);
 #endif
     
@@ -1210,7 +1212,7 @@ int symbolic_finder_builder(DSDManager *manager, DSDNode *node1, DSDNode *node2)
 {
     int found;
     ActualNode *iter;
-    DdNode *result, *temp_result, *symbolic_smasher, top_func;
+    DdNode *result, *temp_result, *symbolic_smasher;
 
     found = 0;
 
@@ -1521,7 +1523,7 @@ DdNode *check_symbolic2(DSDManager *manager, DSDNode *node)
 {
     int found;
     ActualNode *iter;
-    DdNode *result, *temp_result, *symbolic_smasher, top_func;
+    DdNode *result, *temp_result, *symbolic_smasher;
 
     found = 0;
 

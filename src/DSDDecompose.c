@@ -81,17 +81,15 @@ DSDNode* __DSD_Create(DSDManager* manager, DdNode* f)
         return result;
     }
 
-    temp = DD_ONE(manager->Ddmanager_analogue);
-
     manager->num_entered++;
 
     /*special case for variables*/
-    if((Cudd_Regular(f)->type.kids.T == temp) && (Cudd_Regular(f)->type.kids.E == Cudd_Not(temp)))
+    if(Cudd_bddIsVar(manager->Ddmanager_analogue, f))
     {
         return create_var(manager, f);
     }
 
-    id = Cudd_Regular(f)->index;
+    id = Cudd_NodeReadIndex(f);
     /*temp = manager->Ddmanager_analogue;
       id = *(temp->perm);
       cuddI(manager->Ddmanager_analogue, id);*/	
@@ -99,13 +97,13 @@ DSDNode* __DSD_Create(DSDManager* manager, DdNode* f)
 
     if(!Cudd_IsComplement(f))
     {
-        T = Cudd_Regular(f)->type.kids.T;
-        E = Cudd_Regular(f)->type.kids.E;
+        T = Cudd_T(f);
+        E = Cudd_E(f);
     }
     else
     {
-        T = Cudd_Not(Cudd_Regular(f)->type.kids.T);
-        E = Cudd_Not(Cudd_Regular(f)->type.kids.E);
+        T = Cudd_Not(Cudd_T(f));
+        E = Cudd_Not(Cudd_E(f));
     }
 
     DT = __DSD_Create(manager, T);
@@ -156,8 +154,8 @@ DSDNode *create_var(DSDManager* manager, DdNode* f)
     //Cudd_RecursiveDeref(manager->Ddmanager_analogue, result->bdd_analogue);
     //manager->num_DSD_nodes--;
     
-    assert(Cudd_Regular(f)->index <= SATURATION);
-    SET_CAN((DSD_Regular(result)),(Cudd_Regular(f)->index));
+    assert(Cudd_NodeReadIndex(f) <= SATURATION);
+    SET_CAN((DSD_Regular(result)),(Cudd_NodeReadIndex(f)));
 
     /*DSD node already referenced and initialized)*/
     SET_TYPE(result, VAR);

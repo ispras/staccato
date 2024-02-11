@@ -30,8 +30,10 @@
 *******************************************************************************/
 
 
-#include <stdio.h>
 #include "DSDManager.h"
+
+#include <stdio.h>
+#include <stdlib.h>
 
 FixHeapPtr dsd_malloc_ptr;
 FixHeapPtr actual_malloc_ptr;
