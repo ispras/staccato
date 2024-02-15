@@ -84,7 +84,7 @@ DSDNode* __DSD_Create(DSDManager* manager, DdNode* f)
     manager->num_entered++;
 
     /*special case for variables*/
-    if(Cudd_bddIsVar(manager->Ddmanager_analogue, f))
+    if(Cudd_bddIsVar(manager->Ddmanager_analogue, Cudd_Regular(f)))
     {
         return create_var(manager, f);
     }
